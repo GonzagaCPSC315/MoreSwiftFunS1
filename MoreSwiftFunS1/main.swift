@@ -51,34 +51,88 @@ print("Hello, World!")
 // they "throw" an error and require the
 // calling code acknowledge/handle the error
 
-// define our Error enum
-enum UserInputError: Error {
-    case invalidInteger
-    case invalidPositiveInteger
-}
+//// define our Error enum
+//enum UserInputError: Error {
+//    case invalidInteger
+//    case invalidPositiveInteger
+//}
+//
+//// put throws after the ()
+//func getPositiveInteger() throws -> Int {
+//    print("Enter a positive integer:")
+//    guard let inputString = readLine(), let inputInt = Int(inputString), inputInt > 0 else {
+//        // here when one of the BCs fails/false
+//        throw UserInputError.invalidPositiveInteger // early exit because something went wrong
+//    }
+//    // here then all of our BCs succeeded/true
+//    // inputString and inputInt are still in scope here
+//    return inputInt
+//}
+//
+//// 2 ways to handle the error
+//// 1. try? optional
+////let value = try? getPositiveInteger()
+////print("got:", value)
+//// 2. try with do {} catch {}
+//do {
+//    let value = try getPositiveInteger()
+//    print("got:", value)
+//}
+//catch UserInputError.invalidPositiveInteger {
+//    print("Unable to get a positive integer from the user")
+//    // try to recover...
+//}
+//
+//// MARK: - Optional Chaining
+//// use optional chaining when you want to use a member (property or a method) on a value in an optional
+//print("Enter in an integer: ")
+//// example: we want to print out how many digits are the integeer
+//let inputStringOptional = readLine()
+//let numDigits = inputStringOptional?.count
+//print(numDigits)
+//
+//// MARK: - Nil Coalescing Operator ??
+//// use ?? when you have a default value to use instead of nil when you unwrap an optional
+//// example: lets grab the integer in inputStringOptional or 0 if there is no parseable integer
+//if let inputString = inputStringOptional {
+//    let inputInt = Int(inputString) ?? 0
+//    print(inputInt)
+//}
 
-// put throws after the ()
-func getPositiveInteger() throws -> Int {
-    print("Enter a positive integer:")
-    guard let inputString = readLine(), let inputInt = Int(inputString), inputInt > 0 else {
-        // here when one of the BCs fails/false
-        throw UserInputError.invalidPositiveInteger // early exit because something went wrong
+// MARK: - Closure Practice
+// review ADS 5.1...
+// guided examples of map, filter, reduce on an Int array
+// then... I have challenge problems on a String array
+let nums = [1, 2, 3, 4, 5]
+print(nums)
+// map: apply a function to each value in an array to produce
+// an new array of equal size
+// example: write a closure to create an array of each value in nums doubled [2, 4, 6, 8, 10]
+// without syntactic sugar (shorthand)
+let numsDoubled = nums.map({(value) -> Int in
+    return value * 2
+})
+print(numsDoubled)
+// syntactic sugar
+print(nums.map{$0 * 2})
+
+// filter: apply an inclusion critera to each value in an array to
+// produce a new array (might be smaller)
+// example: write a closure to create an array of only the even numbers
+let numsEven = nums.filter({(value) -> Bool in
+    if value % 2 == 0 {
+        return true
     }
-    // here then all of our BCs succeeded/true
-    // inputString and inputInt are still in scope here
-    return inputInt
-}
+    return false
+})
+print(numsEven)
+// syntactic sugar
+print(nums.filter{$0 % 2 == 0})
 
-// 2 ways to handle the error
-// 1. try? optional
-//let value = try? getPositiveInteger()
-//print("got:", value)
-// 2. try with do {} catch {}
-do {
-    let value = try getPositiveInteger()
-    print("got:", value)
-}
-catch UserInputError.invalidPositiveInteger {
-    print("Unable to get a positive integer from the user")
-    // try to recover...
-}
+// reduce: combine all the values in an array into a single value
+// example: write a closure to compute the product of all the values in nums
+let product = nums.reduce(1, { (productSoFar, value) -> Int in
+    return productSoFar * value
+})
+print(product)
+// TODO: syntactic sugar
