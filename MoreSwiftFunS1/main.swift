@@ -135,4 +135,22 @@ let product = nums.reduce(1, { (productSoFar, value) -> Int in
     return productSoFar * value
 })
 print(product)
-// TODO: syntactic sugar
+// syntactic sugar
+print(nums.reduce(1) {$0 * $1})
+
+// closure challenge problems with an array of strings
+let sentence = ["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
+
+// 1. use a closure to create an array of only the words with "o"
+let wordsWithO = sentence.filter({ (word) -> Bool in
+    return word.contains("o")
+})
+print(wordsWithO)
+print(sentence.filter{$0.contains("o")})
+
+// 2. use a closure to create an array of the words in all CAPS
+print(sentence.map{$0.uppercased()})
+
+// 3. use a closure to create a string of the first letters in each word
+// ex: "tqbfjotld"
+print(sentence.reduce("") {$0 + String($1[$1.startIndex])})
